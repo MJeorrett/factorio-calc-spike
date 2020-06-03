@@ -19,8 +19,7 @@ Object.keys(producersConfig).forEach(producerKey => {
   const itemConfig = itemsConfig[producerKey];
   const node = new Machine.Model(
     itemConfig.localized_name.en,
-    itemConfig.icon_col,
-    itemConfig.icon_row,
+    producerKey,
     Object.keys(itemsConfig)
       .filter(itemkey => producerConfig.includes(itemsConfig[itemkey].category))
   );

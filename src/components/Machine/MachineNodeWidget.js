@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
 import styled from '@emotion/styled';
 
+import ItemIcon from '../ItemIcon';
+
 import MachinePortWidget from './MachinePortWidget';
 
 const S = {
@@ -17,13 +19,6 @@ const S = {
   `,
   Label: styled.p`
     color: dodgerblue;
-  `,
-  Icon: styled.img`
-    background: url("img/sprite-sheet.png") ${p => `${p.iconCol * -32}px ${p.iconRow * -32}px`};
-    height: 32px;
-    margin-right: 1rem;
-    min-width: 32px;
-    max-width: 32px;
   `,
   Content: styled.div`
     padding: 1rem;
@@ -85,11 +80,7 @@ const MachineNodeWidget = ({
   return (
     <S.Root>
       <S.Title>
-        <S.Icon
-          src="img/pixel.gif"
-          iconCol={node.options.iconCol}
-          iconRow={node.options.iconRow}
-        />
+        <ItemIcon itemName={node.options.itemName} />
         <S.Label>{node.options.label}</S.Label>
       </S.Title>
       <S.Content>

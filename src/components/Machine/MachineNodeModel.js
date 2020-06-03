@@ -3,12 +3,11 @@ import { NodeModel, DefaultPortModel, PortModelAlignment } from '@projectstorm/r
 import itemsConfig from '../../data/items-config.json';
 
 class MachineNodeModel extends NodeModel {
-  constructor(label, iconCol, iconRow, craftableItems) {
+  constructor(label, itemName, craftableItems) {
     super({
       type: 'machine',
       label,
-      iconCol,
-      iconRow,
+      itemName,
       inputs: [],
       craftableItems,
     });
