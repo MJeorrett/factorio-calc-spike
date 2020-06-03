@@ -1,6 +1,7 @@
 import { NodeModel, DefaultPortModel, PortModelAlignment } from '@projectstorm/react-diagrams';
 
 import itemsConfig from '../../data/items-config.json';
+import producers from '../../data/producers';
 
 const roundPrecision = 1000;
 const round = number => {
@@ -13,7 +14,6 @@ class MachineNodeModel extends NodeModel {
       type: 'machine',
       label,
       itemName,
-      inputs: [],
       craftableItems,
     });
   }
@@ -22,14 +22,12 @@ class MachineNodeModel extends NodeModel {
     Object.keys(this.ports).forEach(portName => {
       this.removePort(this.ports[portName]);
     });
-    const itemConfig = itemsConfig.recipes[item];
-    const ingredients = itemConfig.ingredients;
-    const results = itemConfig.results;
-    const craftTime = itemConfig.energy_required;
-    this.options.inputs = ingredients;
-    ingredients
+    const recipe = itemsConfig.recipes[item];
+    const craftTime = recipe.energy_required / producers[this.options.itemName].crafting_speed;
+    this.options.inputs = recipe.ingredients;
+    recipe.ingredients
       .forEach(ingredient => {
-        const ingredientConfig = itemsConfig.recipes[ingredient.name];
+        const ingredientConfig = itemsConfig.items[ingredient.name];
         const ingredientLabel = ingredientConfig.localized_name.en;
         this.addPort(new DefaultPortModel({
           alignment: PortModelAlignment.LEFT,
@@ -37,8 +35,8 @@ class MachineNodeModel extends NodeModel {
           label: `${round(ingredient.amount / craftTime)} x ${ingredientLabel}`,
         }));
       });
-    results.forEach(result => {
-      const resultConfig = itemsConfig.recipes[result.name];
+    recipe.results.forEach(result => {
+      const resultConfig = itemsConfig.items[result.name];
       this.addPort(new DefaultPortModel({
         alignment: PortModelAlignment.RIGHT,
         name: `result-${result.name}`,

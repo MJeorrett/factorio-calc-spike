@@ -3,6 +3,7 @@ import createEngine, { DiagramModel } from '@projectstorm/react-diagrams';
 import * as Machine from './components/Machine';
 
 import itemsConfig from './data/items-config.json';
+import producers from './data/producers';
 
 const engine = createEngine();
 
@@ -13,10 +14,10 @@ const nodes = [];
 const spacingX = 275;
 let x = spacingX;
 
-Object.keys(itemsConfig["assembling-machine"]).forEach(producerKey => {
+Object.keys(producers).forEach(producerKey => {
   console.log(producerKey)
-  const producerConfig = itemsConfig["assembling-machine"][producerKey]
-  const itemConfig = itemsConfig.recipes[producerKey];
+  const producerConfig = producers[producerKey];
+  const itemConfig = itemsConfig.items[producerKey];
   const node = new Machine.Model(
     itemConfig.localized_name.en,
     producerKey,
