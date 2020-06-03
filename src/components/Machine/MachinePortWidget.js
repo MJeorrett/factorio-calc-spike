@@ -3,12 +3,13 @@ import styled from '@emotion/styled';
 
 const S = {
   Root: styled.p`
-    color: dodgerblue;
+    background: dodgerblue;
+    color: white;
     padding: 0.5rem;
   `,
 };
 
-const ItemPortWidget = ({
+const MachinePortWidget = ({
   port,
 }) => {
   return (
@@ -18,4 +19,4 @@ const ItemPortWidget = ({
   );
 };
 
-export default ItemPortWidget;
+export default MachinePortWidget;
