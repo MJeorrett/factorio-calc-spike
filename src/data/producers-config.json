@@ -1,4 +1,10 @@
 {
+  "player": [
+    "lumberjacking",
+    "mining",
+    "crafting",
+    "basic-crafting"
+  ],
   "assembling-machine-1": [
     "crafting",
     "basic-crafting",
@@ -33,5 +39,24 @@
   ],
   "stone-furnace": [
     "smelting"
+  ],
+  "burner-mining-drill": [
+    "mining"
+  ],
+  "electric-mining-drill": [
+    "mining",
+    "advanced-mining"
+  ],
+  "pumpjack": [
+    "oil-extraction"
+  ],
+  "boiler": [
+    "steam-production"
+  ],
+  "heat-exchanger": [
+    "steam-production"
+  ],
+  "offshore-pump": [
+    "water-abstraction"
   ]
 }

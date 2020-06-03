@@ -35,7 +35,7 @@ class MachineNodeModel extends NodeModel {
       this.addPort(new DefaultPortModel({
         alignment: PortModelAlignment.RIGHT,
         name: `result-${result.name}`,
-        label: `${itemsConfig[result.name].localized_name.en} x ${result.amount}`,
+        label: `${result.amount} x ${itemsConfig[result.name].localized_name.en}`,
       }));
     });
   }

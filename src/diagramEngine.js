@@ -11,7 +11,7 @@ const nodeFactories = engine.getNodeFactories();
 nodeFactories.registerFactory(new Machine.Factory());
 
 const nodes = [];
-const spacingX = 200;
+const spacingX = 275;
 let x = spacingX;
 
 Object.keys(producersConfig).forEach(producerKey => {
