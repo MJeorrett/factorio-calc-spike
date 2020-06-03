@@ -32,7 +32,7 @@ const ItemIcon = ({
     );
   }
 
-  const itemConfig = itemsConfig[itemName];
+  const itemConfig = itemsConfig.recipes[itemName];
   return (
     <S.Root
       src="img/pixel.gif"

@@ -22,14 +22,14 @@ class MachineNodeModel extends NodeModel {
     Object.keys(this.ports).forEach(portName => {
       this.removePort(this.ports[portName]);
     });
-    const itemConfig = itemsConfig[item];
+    const itemConfig = itemsConfig.recipes[item];
     const ingredients = itemConfig.ingredients;
     const results = itemConfig.results;
     const craftTime = itemConfig.energy_required;
     this.options.inputs = ingredients;
     ingredients
       .forEach(ingredient => {
-        const ingredientConfig = itemsConfig[ingredient.name];
+        const ingredientConfig = itemsConfig.recipes[ingredient.name];
         const ingredientLabel = ingredientConfig.localized_name.en;
         this.addPort(new DefaultPortModel({
           alignment: PortModelAlignment.LEFT,
@@ -38,7 +38,7 @@ class MachineNodeModel extends NodeModel {
         }));
       });
     results.forEach(result => {
-      const resultConfig = itemsConfig[result.name];
+      const resultConfig = itemsConfig.recipes[result.name];
       this.addPort(new DefaultPortModel({
         alignment: PortModelAlignment.RIGHT,
         name: `result-${result.name}`,

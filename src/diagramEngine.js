@@ -3,7 +3,6 @@ import createEngine, { DiagramModel } from '@projectstorm/react-diagrams';
 import * as Machine from './components/Machine';
 
 import itemsConfig from './data/items-config.json';
-import producersConfig from './data/producers-config.json';
 
 const engine = createEngine();
 
@@ -14,14 +13,15 @@ const nodes = [];
 const spacingX = 275;
 let x = spacingX;
 
-Object.keys(producersConfig).forEach(producerKey => {
-  const producerConfig = producersConfig[producerKey]
-  const itemConfig = itemsConfig[producerKey];
+Object.keys(itemsConfig["assembling-machine"]).forEach(producerKey => {
+  console.log(producerKey)
+  const producerConfig = itemsConfig["assembling-machine"][producerKey]
+  const itemConfig = itemsConfig.recipes[producerKey];
   const node = new Machine.Model(
     itemConfig.localized_name.en,
     producerKey,
-    Object.keys(itemsConfig)
-      .filter(itemkey => producerConfig.includes(itemsConfig[itemkey].category))
+    Object.keys(itemsConfig.recipes)
+      .filter(itemkey => producerConfig.crafting_categories.includes(itemsConfig.recipes[itemkey].category))
   );
   node.setPosition(x, 100);
   x += spacingX;
