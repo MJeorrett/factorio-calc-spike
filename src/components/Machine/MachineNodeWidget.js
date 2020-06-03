@@ -15,14 +15,16 @@ const S = {
   Title: styled.div`
     border-bottom: 1px solid dodgerblue;
     display: flex;
-    padding: 1rem;
+    padding: 0.5rem;
   `,
   Label: styled.p`
     color: dodgerblue;
+    flex-grow: 1;
+    text-align: center;
   `,
   Content: styled.div`
     display: flex;
-    padding: 1rem;
+    padding: 0.5rem;
     width: 100%;
   `,
   ItemSelect: styled.select`
@@ -31,12 +33,12 @@ const S = {
   Ports: styled.div`
     border-top: 1px solid dodgerblue;
     display: flex;
-    padding: 3px;
+    padding: 0.25rem;
   `,
   InputPorts: styled.div`
-    margin-right: 12px;
+    margin-right: 1rem;
     &> *:not(:last-child) {
-      margin-bottom: 3px;
+      margin-bottom: 0.25rem;
     }
   `,
   PortPadding: styled.div`
@@ -45,7 +47,7 @@ const S = {
   OutputPorts: styled.div`
     align-self: right;
     &> *:not(:last-child) {
-      margin-bottom: 3px;
+      margin-bottom: 0.25rem;
     }
   `,
 };
