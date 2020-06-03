@@ -1,0 +1,37 @@
+{
+  "assembling-machine-1": [
+    "crafting",
+    "basic-crafting",
+    "advanced-crafting"
+  ],
+  "assembling-machine-2": [
+    "basic-crafting",
+    "crafting",
+    "advanced-crafting",
+    "crafting-with-fluid"
+  ],
+  "assembling-machine-3": [
+    "basic-crafting",
+    "crafting",
+    "advanced-crafting",
+    "crafting-with-fluid"
+  ],
+  "centrifuge": [
+    "centrifuging"
+  ],
+  "chemical-plant": [
+    "chemistry"
+  ],
+  "oil-refinery": [
+    "oil-processing"
+  ],
+  "electric-furnace": [
+    "smelting"
+  ],
+  "steel-furnace": [
+    "smelting"
+  ],
+  "stone-furnace": [
+    "smelting"
+  ]
+}

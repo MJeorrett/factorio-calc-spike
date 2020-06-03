@@ -3,6 +3,7 @@ import createEngine, { DiagramModel } from '@projectstorm/react-diagrams';
 import * as Machine from './components/Machine';
 
 import itemsConfig from './data/items-config.json';
+import producersConfig from './data/producers-config.json';
 
 const engine = createEngine();
 
@@ -11,33 +12,21 @@ nodeFactories.registerFactory(new Machine.Factory());
 
 const nodes = [];
 const spacingX = 200;
-const spacingY = 300;
-const columnCount = 20;
 let x = spacingX;
-let y = spacingY;
 
-Object.keys(itemsConfig).forEach(itemKey => {
-  const itemConfig = itemsConfig[itemKey];
-  if (itemConfig.ingredients.length === 0) return;
+Object.keys(producersConfig).forEach(producerKey => {
+  const producerConfig = producersConfig[producerKey]
+  const itemConfig = itemsConfig[producerKey];
   const node = new Machine.Model(
     itemConfig.localized_name.en,
-    itemConfig.ingredients.map(ingredient => {
-      console.log("Ingredient:", ingredient);
-      return {
-        name: ingredient.name,
-        label: itemsConfig[ingredient.name].localized_name.en,
-      };
-    }),
     itemConfig.icon_col,
-    itemConfig.icon_row
+    itemConfig.icon_row,
+    Object.keys(itemsConfig)
+      .filter(itemkey => producerConfig.includes(itemsConfig[itemkey].category))
   );
-
-  node.setPosition(x, y);
+  node.setPosition(x, 100);
   x += spacingX;
-  if (x >= spacingX * columnCount) {
-    x = spacingX;
-    y += spacingY;
-  }
+
   nodes.push(node);
 });
 
