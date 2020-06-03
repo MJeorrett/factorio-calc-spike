@@ -2,6 +2,11 @@ import { NodeModel, DefaultPortModel, PortModelAlignment } from '@projectstorm/r
 
 import itemsConfig from '../../data/items-config.json';
 
+const roundPrecision = 1000;
+const round = number => {
+  return Math.round((number + Number.EPSILON) * roundPrecision) / roundPrecision;
+}
+
 class MachineNodeModel extends NodeModel {
   constructor(label, itemName, craftableItems) {
     super({
@@ -17,8 +22,10 @@ class MachineNodeModel extends NodeModel {
     Object.keys(this.ports).forEach(portName => {
       this.removePort(this.ports[portName]);
     });
-    const ingredients = itemsConfig[item].ingredients;
-    const results = itemsConfig[item].results;
+    const itemConfig = itemsConfig[item];
+    const ingredients = itemConfig.ingredients;
+    const results = itemConfig.results;
+    const craftTime = itemConfig.energy_required;
     this.options.inputs = ingredients;
     ingredients
       .forEach(ingredient => {
@@ -27,14 +34,15 @@ class MachineNodeModel extends NodeModel {
         this.addPort(new DefaultPortModel({
           alignment: PortModelAlignment.LEFT,
           name: `ingredient-${ingredient.name}`,
-          label: `${ingredient.amount} x ${ingredientLabel}`,
+          label: `${round(ingredient.amount / craftTime)} x ${ingredientLabel}`,
         }));
       });
     results.forEach(result => {
+      const resultConfig = itemsConfig[result.name];
       this.addPort(new DefaultPortModel({
         alignment: PortModelAlignment.RIGHT,
         name: `result-${result.name}`,
-        label: `${result.amount} x ${itemsConfig[result.name].localized_name.en}`,
+        label: `${round(result.amount / craftTime)} x ${resultConfig.localized_name.en}`,
       }));
     });
   }
