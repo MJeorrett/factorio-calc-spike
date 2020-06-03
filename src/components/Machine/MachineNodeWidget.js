@@ -21,11 +21,12 @@ const S = {
     color: dodgerblue;
   `,
   Content: styled.div`
+    display: flex;
     padding: 1rem;
     width: 100%;
   `,
   ItemSelect: styled.select`
-    width: 100%;
+    flex-grow: 1;
   `,
   Ports: styled.div`
     border-top: 1px solid dodgerblue;
@@ -84,10 +85,13 @@ const MachineNodeWidget = ({
         <S.Label>{node.options.label}</S.Label>
       </S.Title>
       <S.Content>
+        <ItemIcon itemName={selectedItem} />
         <S.ItemSelect type="select" value={selectedItem} onChange={handleItemSelect}>
           <option value="" disabled>-- Please select an item --</option>
           {node.options.craftableItems.map(item => (
-            <option key={item} value={item}>{item}</option>
+            <option key={item} value={item}>
+              {item}
+            </option>
           ))}
         </S.ItemSelect>
       </S.Content>

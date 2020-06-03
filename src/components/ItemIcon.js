@@ -11,11 +11,27 @@ const S = {
     min-width: 32px;
     max-width: 32px;
   `,
+  Placeholder: styled.span`
+    border: 1px solid grey;
+    height: 32px;
+    margin-right: 1rem;
+    padding: 3px;
+    text-align: center;
+    width: 32px;
+  `,
 };
 
 const ItemIcon = ({
   itemName,
 }) => {
+  if (!itemName) {
+    return (
+      <S.Placeholder>
+        ?
+      </S.Placeholder>
+    );
+  }
+
   const itemConfig = itemsConfig[itemName];
   return (
     <S.Root
