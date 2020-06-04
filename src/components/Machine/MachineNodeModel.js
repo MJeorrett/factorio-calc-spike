@@ -1,4 +1,4 @@
-import { NodeModel, DefaultPortModel, PortModelAlignment } from '@projectstorm/react-diagrams';
+import { NodeModel } from '@projectstorm/react-diagrams';
 
 import itemsConfig from '../../data/items-config.json';
 import producers from '../../data/producers';
@@ -11,12 +11,16 @@ const round = number => {
 }
 
 class MachineNodeModel extends NodeModel {
-  constructor(label, itemName, craftableItems) {
+  constructor(itemName) {
+    const itemConfig = itemsConfig.items[itemName];
+    const producerConfig = producers[itemName];
+    
     super({
       type: 'machine',
-      label,
+      label: itemConfig.localized_name.en,
       itemName,
-      craftableItems,
+      craftableItems: Object.keys(itemsConfig.recipes)
+        .filter(itemkey => producerConfig.crafting_categories.includes(itemsConfig.recipes[itemkey].category)),
     });
   }
 
