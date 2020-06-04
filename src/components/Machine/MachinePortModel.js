@@ -3,20 +3,26 @@ import { PortModel, DefaultLinkModel, PortModelAlignment } from '@projectstorm/r
 import round from '../../utils/round';
 
 class MachinePortModel extends PortModel {
-  constructor({ itemName, label, productionSpeed, isInput }) {
+  constructor({ itemName, label, productionSpeed, itemAmount, craftTime, isInput }) {
     super({
       name: isInput ? `input-${itemName}` : `output-${itemName}`,
-      productionSpeed,
       itemName,
+      itemAmount,
+      craftTime,
       isInput,
       alignment: isInput ? PortModelAlignment.LEFT : PortModelAlignment.RIGHT,
     });
   }
 
-  getProductionSpeed() {
+  getProductionSpeed(dontRound = false) {
+    const raw = this.options.itemAmount / this.options.craftTime;
+    return dontRound ? raw : round(raw);
+  }
+
+  getProductionSpeedPerOutput() {
     let linksCount = Object.keys(this.links).length;
     if (linksCount === 0) linksCount = 1;
-    return round(this.options.productionSpeed / linksCount);
+    return round(this.getProductionSpeed(true) / linksCount);
   }
 
   getSatisfaction() {
@@ -24,7 +30,7 @@ class MachinePortModel extends PortModel {
       return this.links[linkName].options.productionSpeed + sum;
     }, 0);
 
-    return totalInput / this.options.productionSpeed;
+    return totalInput / this.getProductionSpeed();
   }
 
   removeAllLinks() {
@@ -36,10 +42,10 @@ class MachinePortModel extends PortModel {
   createLinkModel() {
     if (this.isInput) return null;
 
-    const productionSpeed = this.getProductionSpeed();
+    const productionSpeedPerOutput = this.getProductionSpeedPerOutput();
 
-    const link = new DefaultLinkModel({ productionSpeed });
-    link.addLabel(`${productionSpeed} \\s`);
+    const link = new DefaultLinkModel({ productionSpeed: productionSpeedPerOutput });
+    link.addLabel(`${productionSpeedPerOutput} \\s`);
 
     return link;
   }
@@ -52,9 +58,9 @@ class MachinePortModel extends PortModel {
     const links = Object.keys(this.links).map(key => this.links[key]);
 
     links.forEach(link => {
-      const productionSpeed = this.getProductionSpeed();
-      link.productionSpeed = productionSpeed;
-      link.labels[0].options.label = `${productionSpeed} \\s`;
+      const productionSpeedPerOutput = this.getProductionSpeedPerOutput();
+      link.productionSpeed = productionSpeedPerOutput;
+      link.labels[0].options.label = `${productionSpeedPerOutput} \\s`;
     });
   }
 }

@@ -28,7 +28,7 @@ const MachinePortWidget = ({
   const satisfaction = port.options.isInput ? port.getSatisfaction() : 1;
 
   return (
-    <Tooltip title={`${itemConfig.localized_name.en} @ ${port.options.productionSpeed} /s`}>
+    <Tooltip title={`${itemConfig.localized_name.en} @ ${port.getProductionSpeed()} /s`}>
       <S.Root satisfaction={satisfaction}>
         <ItemIcon
           itemName={itemName}

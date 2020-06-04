@@ -57,7 +57,8 @@ class MachineNodeModel extends NodeModel {
         const ingredientLabel = ingredientConfig.localized_name.en;
         this.addPort(new MachinePortModel({
           itemName: ingredient.name,
-          productionSpeed: round(ingredient.amount / craftTime),
+          itemAmount: ingredient.amount,
+          craftTime,
           label: ingredientLabel,
           isInput: true,
         }));
@@ -66,7 +67,8 @@ class MachineNodeModel extends NodeModel {
       const resultConfig = itemsConfig.items[result.name];
       this.addPort(new MachinePortModel({
         itemName: result.name,
-        productionSpeed: round(result.amount / craftTime),
+        itemAmount: result.amount,
+        craftTime,
         label: resultConfig.localized_name.en,
         isInput: false,
       }));
