@@ -9,7 +9,7 @@ import MachinePortWidget from './MachinePortWidget';
 const S = {
   Root: styled.div`
     background: white;
-    border: 1px solid dodgerblue;
+    border: ${p => p.isSelected ? '2.5px solid dodgerblue' : '1px solid dodgerblue'};
     opacity: 0.95;
   `,
   Title: styled.div`
@@ -82,7 +82,7 @@ const MachineNodeWidget = ({
     }
   });
   return (
-    <S.Root>
+    <S.Root isSelected={node.isSelected()}>
       <S.Title>
         <ItemIcon itemName={node.options.itemName} />
         <S.Label>{node.options.label}</S.Label>
