@@ -7,6 +7,9 @@ import producers from './data/producers';
 
 const engine = createEngine();
 
+const state = engine.getStateMachine().getCurrentState();
+state.dragNewLink.config.allowLooseLinks = false;
+
 const nodeFactories = engine.getNodeFactories();
 nodeFactories.registerFactory(new Machine.Factory());
 
@@ -15,7 +18,6 @@ const spacingX = 275;
 let x = spacingX;
 
 Object.keys(producers).forEach(producerKey => {
-  console.log(producerKey)
   const producerConfig = producers[producerKey];
   const itemConfig = itemsConfig.items[producerKey];
   const node = new Machine.Model(
@@ -32,6 +34,14 @@ Object.keys(producers).forEach(producerKey => {
 
 const model = new DiagramModel();
 model.addAll(...nodes);
+
+model.registerListener({
+  eventDidFire: console.log,
+});
+
+model.registerListener({
+  linksUpdated: console.log,
+})
 
 engine.setModel(model);
 

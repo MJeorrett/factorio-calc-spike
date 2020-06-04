@@ -64,20 +64,21 @@ const MachineNodeWidget = ({
   const inputs = [];
   const outputs = [];
   Object.keys(node.ports).forEach(portName => {
-    const port = (
+    const port = node.getPort(portName);
+    const portWidget = (
       <PortWidget
         key={portName}
-        port={node.getPort(portName)}
+        port={port}
         engine={engine}
       >
-        <MachinePortWidget port={node.getPort(portName)} />
+        <MachinePortWidget port={port} />
       </PortWidget>
     );
-    if (portName.substr(0, portName.indexOf('-')) === 'ingredient') {
-      inputs.push(port);
+    if (port.options.isInput) {
+      inputs.push(portWidget);
     }
     else {
-      outputs.push(port);
+      outputs.push(portWidget);
     }
   });
   return (

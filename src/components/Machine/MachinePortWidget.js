@@ -6,6 +6,9 @@ const S = {
     background: dodgerblue;
     color: white;
     padding: 0.5rem;
+    :hover {
+      opacity: 0.85;
+    }
   `,
 };
 

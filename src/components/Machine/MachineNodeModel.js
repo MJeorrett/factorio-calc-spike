@@ -3,6 +3,8 @@ import { NodeModel, DefaultPortModel, PortModelAlignment } from '@projectstorm/r
 import itemsConfig from '../../data/items-config.json';
 import producers from '../../data/producers';
 
+import MachinePortModel from './MachinePortModel';
+
 const roundPrecision = 1000;
 const round = number => {
   return Math.round((number + Number.EPSILON) * roundPrecision) / roundPrecision;
@@ -29,18 +31,18 @@ class MachineNodeModel extends NodeModel {
       .forEach(ingredient => {
         const ingredientConfig = itemsConfig.items[ingredient.name];
         const ingredientLabel = ingredientConfig.localized_name.en;
-        this.addPort(new DefaultPortModel({
-          alignment: PortModelAlignment.LEFT,
-          name: `ingredient-${ingredient.name}`,
+        this.addPort(new MachinePortModel({
+          itemName: ingredient.name,
           label: `${round(ingredient.amount / craftTime)} x ${ingredientLabel}`,
+          isInput: true,
         }));
       });
     recipe.results.forEach(result => {
       const resultConfig = itemsConfig.items[result.name];
-      this.addPort(new DefaultPortModel({
-        alignment: PortModelAlignment.RIGHT,
-        name: `result-${result.name}`,
+      this.addPort(new MachinePortModel({
+        itemName: result.name,
         label: `${round(result.amount / craftTime)} x ${resultConfig.localized_name.en}`,
+        isInput: false,
       }));
     });
   }
