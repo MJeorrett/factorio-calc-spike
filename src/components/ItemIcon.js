@@ -13,13 +13,11 @@ const S = {
     background: url("img/sprite-sheet.png") ${p => `${p.iconX}px ${p.iconY}px`};
     background-size: ${p => `${p.imageWidth}px ${p.imageHeight}px`};
     height: ${p => p.size}px;
-    margin: auto;
     width: ${p => p.size}px;
   `,
   Placeholder: styled.span`
     border: 1px solid grey;
     height: ${p => p.size}px;
-    margin: auto;
     padding: 3px;
     text-align: center;
     width: ${p => p.size}px;

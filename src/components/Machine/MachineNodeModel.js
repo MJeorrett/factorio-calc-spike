@@ -2,7 +2,6 @@ import { NodeModel } from '@projectstorm/react-diagrams';
 
 import itemsConfig from '../../data/items-config.json';
 import producers from '../../data/producers';
-import round from '../../utils/round';
 
 import MachinePortModel from './MachinePortModel';
 
@@ -13,6 +12,7 @@ class MachineNodeModel extends NodeModel {
     
     super({
       type: 'machine',
+      producerCount: 1,
       producerName,
       producer,
       productionItem: null,

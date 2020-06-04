@@ -17,16 +17,30 @@ const S = {
   Title: styled.div`
     border-bottom: 1px solid dodgerblue;
     display: flex;
+    justify-content: center;
     padding: 0.25rem 0.5rem;
     text-align: center;
     & > *:not(:last-child) {
       margin-right: 0.5rem;
     }
   `,
+  CountButton: styled.button`
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    :hover {
+      background: #dddddd;
+    }
+  `,
   Content: styled.div`
     display: flex;
     padding: 0.25rem 0.5rem;
     width: 100%;
+
+    & > *:not(:last-child) {
+      margin-right: 0.5rem;
+    }
   `,
   ItemSelect: styled.select`
     flex-grow: 1;
@@ -54,7 +68,7 @@ const S = {
   `,
 };
 
-function useForceUpdate(){
+function useForceUpdate() {
   const [, setValue] = useState(0);
   return () => setValue(value => ++value);
 }
@@ -64,6 +78,11 @@ const MachineNodeWidget = ({
   node
 }) => {
   const forceUpdate = useForceUpdate();
+  const [producerCount, setProducerCount] = useState(node.options.producerCount);
+
+  const handleSetProducerCount = newCount => {
+    setProducerCount(newCount);
+  }
 
   const handleTypeSelect = event => {
     node.setProducerType(event.target.value);
@@ -101,6 +120,14 @@ const MachineNodeWidget = ({
     <S.Root isSelected={node.isSelected()}>
       <S.Title>
         <ItemIcon itemName={node.options.producer.name} size={32} />
+        <span>x</span>
+        <span>{producerCount}</span>
+        <div>
+          <S.CountButton type="button" onClick={() => handleSetProducerCount(producerCount - 1)}>-</S.CountButton>
+          <S.CountButton type="button" onClick={() => handleSetProducerCount(producerCount + 1)}>+</S.CountButton>
+        </div>
+      </S.Title>
+      <S.Content>
         <S.ItemSelect type="select" value="" onChange={handleTypeSelect}>
           <option value="" disabled>type</option>
           {node.options.producerTypes.map(producerType => (
@@ -109,8 +136,6 @@ const MachineNodeWidget = ({
             </option>
           ))}
         </S.ItemSelect>
-      </S.Title>
-      <S.Content>
         <S.ItemSelect type="select" value="" onChange={handleItemSelect}>
           <option value="" disabled>product</option>
           {node.getCraftableItems().map(item => (
