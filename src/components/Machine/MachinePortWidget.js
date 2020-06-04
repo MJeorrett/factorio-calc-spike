@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { Tooltip } from '@material-ui/core';
 
 const S = {
   Root: styled.p`
@@ -16,9 +17,11 @@ const MachinePortWidget = ({
   port,
 }) => {
   return (
-    <S.Root>
-      {port.options.label}
-    </S.Root>
+    <Tooltip title={`${port.options.craftingSpeed} /s`}>
+      <S.Root>
+        {port.options.label}
+      </S.Root>
+    </Tooltip>
   );
 };
 

@@ -1,9 +1,10 @@
 import { PortModel, DefaultLinkModel, PortModelAlignment } from '@projectstorm/react-diagrams';
 
 class MachinePortModel extends PortModel {
-  constructor({ itemName, label, isInput }) {
+  constructor({ itemName, label, craftingSpeed, isInput }) {
     super({
       name: isInput ? `input-${itemName}` : `output-${itemName}`,
+      craftingSpeed,
       itemName,
       label,
       isInput,
