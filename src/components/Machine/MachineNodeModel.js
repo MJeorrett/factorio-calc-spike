@@ -68,9 +68,12 @@ class MachineNodeModel extends NodeModel {
       .forEach(ingredient => {
         const ingredientConfig = itemsConfig.items[ingredient.name];
         const ingredientLabel = ingredientConfig.localized_name.en;
+        const isResource = Object.keys(itemsConfig.resource).includes(ingredient.name);
+
         this.addPort(new MachinePortModel({
           itemName: ingredient.name,
           itemAmount: ingredient.amount,
+          isResource,
           craftTime,
           label: ingredientLabel,
           isInput: true,

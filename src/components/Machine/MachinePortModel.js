@@ -3,11 +3,12 @@ import { PortModel, DefaultLinkModel, PortModelAlignment } from '@projectstorm/r
 import round from '../../utils/round';
 
 class MachinePortModel extends PortModel {
-  constructor({ itemName, label, productionSpeed, itemAmount, craftTime, isInput }) {
+  constructor({ itemName, label, productionSpeed, itemAmount, isResource, craftTime, isInput }) {
     super({
       name: isInput ? `input-${itemName}` : `output-${itemName}`,
       itemName,
       itemAmount,
+      isResource,
       craftTime,
       isInput,
       alignment: isInput ? PortModelAlignment.LEFT : PortModelAlignment.RIGHT,

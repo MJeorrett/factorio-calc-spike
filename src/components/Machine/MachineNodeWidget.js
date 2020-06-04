@@ -92,7 +92,7 @@ const MachineNodeWidget = ({
 
   const inputs = [];
   const outputs = [];
-  Object.keys(node.ports).forEach(portName => {
+  Object.keys(node.ports).reverse().forEach(portName => {
     const port = node.getPort(portName);
     const portWidget = (
       <PortWidget
@@ -104,12 +104,18 @@ const MachineNodeWidget = ({
       </PortWidget>
     );
     if (port.options.isInput) {
-      inputs.push(portWidget);
+      if (port.options.isResource) {
+        inputs.unshift(portWidget);
+      }
+      else {
+        inputs.push(portWidget);
+      }
     }
     else {
       outputs.push(portWidget);
     }
   });
+  inputs.reverse();
   const hasPorts = inputs.length > 0 || outputs.length > 0;
   return (
     <S.Root isSelected={node.isSelected()}>
