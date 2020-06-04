@@ -29,7 +29,7 @@ const Tray = ({
   return (
     <S.Root>
       {Object.keys(producers).map(producerName => (
-        <TrayItem itemName={producerName} />
+        <TrayItem key={producerName} itemName={producerName} />
       ))}
     </S.Root >
   );

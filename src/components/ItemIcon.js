@@ -39,7 +39,7 @@ const ItemIcon = ({
     );
   }
 
-  const itemConfig = itemsConfig.recipes[itemName];
+  const itemConfig = itemsConfig.items[itemName] || itemsConfig.recipes[itemName];
 
   const scale = size / tileSize;
   const imageHeight = (verticalTileCount * tileSize) * scale;
@@ -50,6 +50,7 @@ const ItemIcon = ({
   return (
     <Tooltip title={hideTooltip ? '' : itemConfig.localized_name.en}>
       <S.Root
+        draggable="false"
         src="img/pixel.gif"
         size={size}
         imageWidth={imageWidth}

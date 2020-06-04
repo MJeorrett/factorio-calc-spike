@@ -24,7 +24,7 @@ const TrayItem = ({
 
   return (
     <S.TrayItem
-      draggable="true"
+      draggable={true}
       onDragStart={handleDragStart}
     >
       <ItemIcon itemName={itemName} />
