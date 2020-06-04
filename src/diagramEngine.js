@@ -26,6 +26,8 @@ const handleLinkEvent = event => {
   if (!link.targetPort) return;
 
   link.sourcePort.updateCraftingSpeed();
+  link.targetPort.updateSatisfaction();
+  engine.repaintCanvas();
 }
 
 model.registerListener({

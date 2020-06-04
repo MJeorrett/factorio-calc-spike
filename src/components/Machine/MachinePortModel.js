@@ -12,6 +12,8 @@ class MachinePortModel extends PortModel {
       isInput,
       alignment: isInput ? PortModelAlignment.LEFT : PortModelAlignment.RIGHT,
     });
+
+    this.updateSatisfaction();
   }
 
   setCraftTime(newCraftTime) {
@@ -30,12 +32,12 @@ class MachinePortModel extends PortModel {
     return round(this.getProductionSpeed(true) / linksCount);
   }
 
-  getSatisfaction() {
+  updateSatisfaction() {
     const totalInput = Object.keys(this.links).reduce((sum, linkName) => {
       return this.links[linkName].options.productionSpeed + sum;
     }, 0);
 
-    return totalInput / this.getProductionSpeed();
+    this.satisfaction = totalInput / this.getProductionSpeed();
   }
 
   removeAllLinks() {
@@ -60,12 +62,15 @@ class MachinePortModel extends PortModel {
   }
 
   updateCraftingSpeed() {
+    if (this.options.isInput) return;
+    
     const links = Object.keys(this.links).map(key => this.links[key]);
 
     links.forEach(link => {
       const productionSpeedPerOutput = this.getProductionSpeedPerOutput();
-      link.productionSpeed = productionSpeedPerOutput;
+      link.options.productionSpeed = productionSpeedPerOutput;
       link.labels[0].options.label = `${productionSpeedPerOutput} \\s`;
+      link.targetPort.updateSatisfaction();
     });
   }
 }

@@ -68,26 +68,20 @@ const S = {
   `,
 };
 
-function useForceUpdate() {
-  const [, setValue] = useState(0);
-  return () => setValue(value => ++value);
-}
-
 const MachineNodeWidget = ({
   engine,
   node
 }) => {
-  const forceUpdate = useForceUpdate();
   const [producerCount, setProducerCount] = useState(node.options.producerCount);
 
   const handleSetProducerCount = newCount => {
     setProducerCount(newCount);
     node.setProducerCount(newCount);
+    engine.repaintCanvas();
   }
 
   const handleTypeSelect = event => {
     node.setProducerType(event.target.value);
-    forceUpdate();
     engine.repaintCanvas();
   };
 

@@ -25,7 +25,7 @@ const MachinePortWidget = ({
 }) => {
   const itemName = port.options.itemName;
   const itemConfig = itemsConfig.items[itemName];
-  const satisfaction = port.options.isInput ? port.getSatisfaction() : 1;
+  const satisfaction = port.options.isInput ? port.satisfaction : 1;
 
   return (
     <Tooltip title={`${itemConfig.localized_name.en} @ ${port.getProductionSpeed()} /s`}>

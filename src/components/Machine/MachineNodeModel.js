@@ -87,6 +87,10 @@ class MachineNodeModel extends NodeModel {
       }));
     });
   }
+
+  performanceTune() {
+    return false;
+  }
 }
 
 export default MachineNodeModel;
