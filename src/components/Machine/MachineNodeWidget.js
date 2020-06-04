@@ -114,15 +114,16 @@ const MachineNodeWidget = ({
   return (
     <S.Root isSelected={node.isSelected()}>
       <S.Title>
-        <ItemIcon itemName={node.options.producer.name} size={32} />
-        <span>x</span>
-        <span>{producerCount}</span>
         <div>
-          <S.CountButton type="button" disabled={producerCount < 11} onClick={() => handleSetProducerCount(producerCount - 10)}>-10</S.CountButton>
+          <S.CountButton type="button" disabled={producerCount <= 1} onClick={() => handleSetProducerCount(Math.max(Math.round(producerCount / 2), 1))}>÷2</S.CountButton>
+          <S.CountButton type="button" disabled={producerCount <= 1} onClick={() => handleSetProducerCount(Math.max(producerCount - 10, 1))}>-10</S.CountButton>
           <S.CountButton type="button" disabled={producerCount <= 1} onClick={() => handleSetProducerCount(producerCount - 1)}>-</S.CountButton>
           <S.CountButton type="button" onClick={() => handleSetProducerCount(producerCount + 1)}>+</S.CountButton>
           <S.CountButton type="button" onClick={() => handleSetProducerCount(producerCount + 10)}>+10</S.CountButton>
+          <S.CountButton type="button" onClick={() => handleSetProducerCount(producerCount * 2)}>x2</S.CountButton>
         </div>
+        <ItemIcon itemName={node.options.producer.name} size={32} />
+        <span>x {producerCount}</span>
       </S.Title>
       <S.Content>
         <S.ItemSelect type="select" value="" onChange={handleTypeSelect}>
