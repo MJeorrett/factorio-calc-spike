@@ -17,7 +17,7 @@ const MachinePortWidget = ({
   port,
 }) => {
   return (
-    <Tooltip title={`${port.options.craftingSpeed} /s`}>
+    <Tooltip title={`${port.options.productionSpeed} /s`}>
       <S.Root>
         {port.options.label}
       </S.Root>

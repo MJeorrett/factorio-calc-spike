@@ -1,10 +1,10 @@
 import { PortModel, DefaultLinkModel, PortModelAlignment } from '@projectstorm/react-diagrams';
 
 class MachinePortModel extends PortModel {
-  constructor({ itemName, label, craftingSpeed, isInput }) {
+  constructor({ itemName, label, productionSpeed, isInput }) {
     super({
       name: isInput ? `input-${itemName}` : `output-${itemName}`,
-      craftingSpeed,
+      productionSpeed,
       itemName,
       label,
       isInput,
@@ -21,7 +21,10 @@ class MachinePortModel extends PortModel {
   createLinkModel() {
     if (this.isInput) return null;
 
-    return new DefaultLinkModel();
+    const link = new DefaultLinkModel();
+    link.addLabel(`${this.options.productionSpeed} \\s`);
+
+    return link;
   }
 
   canLinkToPort(otherPort) {
