@@ -62,8 +62,9 @@ class MachinePortModel extends PortModel {
   }
 
   updateCraftingSpeed() {
+    this.updateSatisfaction();
     if (this.options.isInput) return;
-    
+
     const links = Object.keys(this.links).map(key => this.links[key]);
 
     links.forEach(link => {
@@ -72,6 +73,7 @@ class MachinePortModel extends PortModel {
       link.labels[0].options.label = `${productionSpeedPerOutput} \\s`;
       link.targetPort.updateSatisfaction();
     });
+
   }
 }
 
