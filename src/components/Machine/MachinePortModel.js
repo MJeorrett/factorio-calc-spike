@@ -1,5 +1,7 @@
 import { PortModel, DefaultLinkModel, PortModelAlignment } from '@projectstorm/react-diagrams';
 
+import round from '../../utils/round';
+
 class MachinePortModel extends PortModel {
   constructor({ itemName, label, productionSpeed, isInput }) {
     super({
@@ -9,6 +11,12 @@ class MachinePortModel extends PortModel {
       isInput,
       alignment: isInput ? PortModelAlignment.LEFT : PortModelAlignment.RIGHT,
     });
+  }
+
+  getProductionSpeed() {
+    let linksCount = Object.keys(this.links).length;
+    if (linksCount === 0) linksCount = 1;
+    return round(this.options.productionSpeed / linksCount);
   }
 
   removeAllLinks() {
@@ -21,13 +29,19 @@ class MachinePortModel extends PortModel {
     if (this.isInput) return null;
 
     const link = new DefaultLinkModel();
-    link.addLabel(`${this.options.productionSpeed} \\s`);
+    link.addLabel(`${this.getProductionSpeed()} \\s`);
 
     return link;
   }
 
   canLinkToPort(otherPort) {
     return this.options.itemName === otherPort.options.itemName;
+  }
+
+  updateCraftingSpeed() {
+    const links = Object.keys(this.links).map(key => this.links[key]);
+
+    links.forEach(link => link.labels[0].options.label = `${this.getProductionSpeed()} \\s`);
   }
 }
 

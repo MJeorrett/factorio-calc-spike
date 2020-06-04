@@ -12,6 +12,32 @@ nodeFactories.registerFactory(new Machine.Factory());
 
 const model = new DiagramModel();
 
+const handleLinkEvent = event => {
+  const { entity: link } = event;
+  const eventType = event.function;
+
+  if (
+    eventType !== 'targetPortChanged' &&
+    eventType !== 'entityRemoved'
+  ) {
+    return;
+  }
+
+  if (!link.targetPort) return;
+
+  link.sourcePort.updateCraftingSpeed();
+}
+
+model.registerListener({
+  linksUpdated: event => {
+    if (event.isCreated) {
+      event.link.registerListener({
+        eventDidFire: handleLinkEvent
+      });
+    }
+  },
+});
+
 engine.setModel(model);
 
 export default engine;

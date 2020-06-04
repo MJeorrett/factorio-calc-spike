@@ -2,13 +2,9 @@ import { NodeModel } from '@projectstorm/react-diagrams';
 
 import itemsConfig from '../../data/items-config.json';
 import producers from '../../data/producers';
+import round from '../../utils/round';
 
 import MachinePortModel from './MachinePortModel';
-
-const roundPrecision = 1000;
-const round = number => {
-  return Math.round((number + Number.EPSILON) * roundPrecision) / roundPrecision;
-}
 
 class MachineNodeModel extends NodeModel {
   constructor(producerName) {
