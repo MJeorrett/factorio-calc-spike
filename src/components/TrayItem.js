@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { Tooltip } from '@material-ui/core';
 
 import ItemIcon from './ItemIcon';
 
@@ -14,21 +15,24 @@ const S = {
 
 const TrayItem = ({
   id,
-  name,
+  label,
   itemName,
+  producerName,
   children
 }) => {
   const handleDragStart = event => {
-    event.dataTransfer.setData('node-type', itemName);
+    event.dataTransfer.setData('node-type', producerName);
   };
 
   return (
-    <S.TrayItem
-      draggable={true}
-      onDragStart={handleDragStart}
-    >
-      <ItemIcon itemName={itemName} />
-    </S.TrayItem>
+    <Tooltip title={label}>
+      <S.TrayItem
+        draggable={true}
+        onDragStart={handleDragStart}
+      >
+        <ItemIcon hideTooltip itemName={itemName} />
+      </S.TrayItem>
+    </Tooltip>
   );
 };
 

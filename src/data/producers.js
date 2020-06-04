@@ -1,6 +1,10 @@
-import itemsConfig from './items-config.json';
-
 export default {
-  ...itemsConfig["assembling-machine"],
-  ...itemsConfig["furnace"],
+  'assembling-machine': {
+    label: 'Assembling machine',
+    defaultType: 'assembling-machine-3',
+  },
+  'furnace': {
+    label: 'Furnace',
+    defaultType: 'electric-furnace',
+  },
 };

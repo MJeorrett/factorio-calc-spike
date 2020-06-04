@@ -28,9 +28,17 @@ const Tray = ({
 }) => {
   return (
     <S.Root>
-      {Object.keys(producers).map(producerName => (
-        <TrayItem key={producerName} itemName={producerName} />
-      ))}
+      {Object.keys(producers).map(producerKey => {
+        const producer = producers[producerKey];
+        return (
+          <TrayItem
+            key={producerKey}
+            label={producer.label}
+            producerName={producerKey}
+            itemName={producer.defaultType}
+          />
+        );
+      })}
     </S.Root >
   );
 };

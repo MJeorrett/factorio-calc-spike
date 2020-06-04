@@ -11,16 +11,17 @@ const round = number => {
 }
 
 class MachineNodeModel extends NodeModel {
-  constructor(itemName) {
-    const itemConfig = itemsConfig.items[itemName];
-    const producerConfig = producers[itemName];
+  constructor(producerName) {
+    const producerConfig = producers[producerName];
+    const itemConfig = itemsConfig.items[producerConfig.defaultType];
     
     super({
       type: 'machine',
       label: itemConfig.localized_name.en,
-      itemName,
+      producerName,
+      itemName: itemConfig.name,
       craftableItems: Object.keys(itemsConfig.recipes)
-        .filter(itemkey => producerConfig.crafting_categories.includes(itemsConfig.recipes[itemkey].category)),
+        .filter(itemkey => itemsConfig[producerName][itemConfig.name].crafting_categories.includes(itemsConfig.recipes[itemkey].category)),
     });
   }
 
@@ -31,7 +32,7 @@ class MachineNodeModel extends NodeModel {
       this.removePort(port);
     });
     const recipe = itemsConfig.recipes[item];
-    const craftTime = recipe.energy_required / producers[this.options.itemName].crafting_speed;
+    const craftTime = recipe.energy_required / itemsConfig[this.options.producerName][this.options.itemName].crafting_speed;
     this.options.inputs = recipe.ingredients;
     recipe.ingredients
       .forEach(ingredient => {
