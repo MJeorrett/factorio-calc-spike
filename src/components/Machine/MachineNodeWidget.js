@@ -67,6 +67,7 @@ const MachineNodeWidget = ({
   const handleItemSelect = event => {
     node.setProductionItem(event.target.value);
     setSelectedItem(event.target.value);
+    engine.repaintCanvas();
   }
   const inputs = [];
   const outputs = [];

@@ -12,6 +12,12 @@ class MachinePortModel extends PortModel {
     });
   }
 
+  removeAllLinks() {
+    Object.keys(this.links).forEach(linkName => {
+      this.links[linkName].remove();
+    });
+  }
+
   createLinkModel() {
     if (this.isInput) return null;
 

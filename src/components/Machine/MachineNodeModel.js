@@ -26,7 +26,9 @@ class MachineNodeModel extends NodeModel {
 
   setProductionItem = item => {
     Object.keys(this.ports).forEach(portName => {
-      this.removePort(this.ports[portName]);
+      const port = this.ports[portName];
+      port.removeAllLinks();
+      this.removePort(port);
     });
     const recipe = itemsConfig.recipes[item];
     const craftTime = recipe.energy_required / producers[this.options.itemName].crafting_speed;
