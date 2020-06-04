@@ -27,6 +27,19 @@ class MachineNodeModel extends NodeModel {
       });
   }
 
+  getCraftTime() {
+    const recipe = itemsConfig.recipes[this.options.productionItem];
+    return recipe.energy_required / this.options.producer.crafting_speed / this.options.producerCount;
+  }
+
+  setProducerCount(newCount) {
+    this.options.producerCount = newCount;
+    Object.keys(this.ports).forEach(portName => {
+      const port = this.ports[portName];
+      port.setCraftTime(this.getCraftTime());
+    });
+  }
+
   setProducerType(newType) {
     this.options.producer = itemsConfig[this.options.producerName][newType];
     if (this.options.productionItem && !this.options.producer.crafting_categories.includes(itemsConfig.recipes[this.options.productionItem].category)) {
@@ -49,7 +62,7 @@ class MachineNodeModel extends NodeModel {
 
     this.options.productionItem = item;
     const recipe = itemsConfig.recipes[item];
-    const craftTime = recipe.energy_required / this.options.producer.crafting_speed;
+    const craftTime = this.getCraftTime();
     this.options.inputs = recipe.ingredients;
     recipe.ingredients
       .forEach(ingredient => {

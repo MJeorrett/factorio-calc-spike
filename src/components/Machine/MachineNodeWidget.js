@@ -27,9 +27,9 @@ const S = {
   CountButton: styled.button`
     background: none;
     border: none;
-    cursor: pointer;
+    cursor: ${p => p.disabled ? 'default' : 'pointer'};
     padding: 0.25rem;
-    :hover {
+    :hover:not(:disabled) {
       background: #dddddd;
     }
   `,
@@ -82,6 +82,7 @@ const MachineNodeWidget = ({
 
   const handleSetProducerCount = newCount => {
     setProducerCount(newCount);
+    node.setProducerCount(newCount);
   }
 
   const handleTypeSelect = event => {
@@ -123,8 +124,10 @@ const MachineNodeWidget = ({
         <span>x</span>
         <span>{producerCount}</span>
         <div>
-          <S.CountButton type="button" onClick={() => handleSetProducerCount(producerCount - 1)}>-</S.CountButton>
+          <S.CountButton type="button" disabled={producerCount < 11} onClick={() => handleSetProducerCount(producerCount - 10)}>-10</S.CountButton>
+          <S.CountButton type="button" disabled={producerCount <= 1} onClick={() => handleSetProducerCount(producerCount - 1)}>-</S.CountButton>
           <S.CountButton type="button" onClick={() => handleSetProducerCount(producerCount + 1)}>+</S.CountButton>
+          <S.CountButton type="button" onClick={() => handleSetProducerCount(producerCount + 10)}>+10</S.CountButton>
         </div>
       </S.Title>
       <S.Content>

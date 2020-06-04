@@ -14,6 +14,11 @@ class MachinePortModel extends PortModel {
     });
   }
 
+  setCraftTime(newCraftTime) {
+    this.options.craftTime = newCraftTime;
+    this.updateCraftingSpeed();
+  }
+
   getProductionSpeed(dontRound = false) {
     const raw = this.options.itemAmount / this.options.craftTime;
     return dontRound ? raw : round(raw);
