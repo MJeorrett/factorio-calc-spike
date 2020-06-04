@@ -8,13 +8,14 @@ import ItemIcon from '../ItemIcon';
 
 const S = {
   Root: styled.p`
-    background: white;
+    background: ${p => p.satisfaction === 0 ? 'red' : 'white'};
     border: 1px solid white;
+    border-color: ${p => p.satisfaction < 1 ? 'red' : 'white'};
     border-radius: 3px;
-    color: white;
+    cursor: pointer;
     padding: 3px 3px 0 3px;
     :hover {
-      border-color: dodgerblue;
+      opacity: 0.6;
     }
   `,
 };
@@ -24,9 +25,11 @@ const MachinePortWidget = ({
 }) => {
   const itemName = port.options.itemName;
   const itemConfig = itemsConfig.items[itemName];
+  const satisfaction = port.options.isInput ? port.getSatisfaction() : 1;
+
   return (
     <Tooltip title={`${itemConfig.localized_name.en} @ ${port.options.productionSpeed} /s`}>
-      <S.Root>
+      <S.Root satisfaction={satisfaction}>
         <ItemIcon
           itemName={itemName}
           hideTooltip

@@ -19,6 +19,14 @@ class MachinePortModel extends PortModel {
     return round(this.options.productionSpeed / linksCount);
   }
 
+  getSatisfaction() {
+    const totalInput = Object.keys(this.links).reduce((sum, linkName) => {
+      return this.links[linkName].options.productionSpeed + sum;
+    }, 0);
+
+    return totalInput / this.options.productionSpeed;
+  }
+
   removeAllLinks() {
     Object.keys(this.links).forEach(linkName => {
       this.links[linkName].remove();
@@ -28,8 +36,10 @@ class MachinePortModel extends PortModel {
   createLinkModel() {
     if (this.isInput) return null;
 
-    const link = new DefaultLinkModel();
-    link.addLabel(`${this.getProductionSpeed()} \\s`);
+    const productionSpeed = this.getProductionSpeed();
+
+    const link = new DefaultLinkModel({ productionSpeed });
+    link.addLabel(`${productionSpeed} \\s`);
 
     return link;
   }
@@ -41,7 +51,11 @@ class MachinePortModel extends PortModel {
   updateCraftingSpeed() {
     const links = Object.keys(this.links).map(key => this.links[key]);
 
-    links.forEach(link => link.labels[0].options.label = `${this.getProductionSpeed()} \\s`);
+    links.forEach(link => {
+      const productionSpeed = this.getProductionSpeed();
+      link.productionSpeed = productionSpeed;
+      link.labels[0].options.label = `${productionSpeed} \\s`;
+    });
   }
 }
 

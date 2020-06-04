@@ -39,12 +39,18 @@ const S = {
   `,
   InputPorts: styled.div`
     margin-right: 0.5rem;
+    & > *:not(:last-child) {
+      margin-bottom: 2px;
+    }
   `,
   PortPadding: styled.div`
     flex-grow: 1;
   `,
   OutputPorts: styled.div`
     align-self: right;
+    & > *:not(:last-child) {
+      margin-bottom: 2px;
+    }
   `,
 };
 
