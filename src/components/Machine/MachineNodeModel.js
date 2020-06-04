@@ -13,16 +13,33 @@ const round = number => {
 class MachineNodeModel extends NodeModel {
   constructor(producerName) {
     const producerConfig = producers[producerName];
-    const itemConfig = itemsConfig.items[producerConfig.defaultType];
+    const producer = itemsConfig[producerName][producerConfig.defaultType];
     
     super({
       type: 'machine',
-      label: itemConfig.localized_name.en,
       producerName,
-      itemName: itemConfig.name,
-      craftableItems: Object.keys(itemsConfig.recipes)
-        .filter(itemkey => itemsConfig[producerName][itemConfig.name].crafting_categories.includes(itemsConfig.recipes[itemkey].category)),
+      producer,
+      productionItem: null,
+      producerTypes: Object.keys(itemsConfig[producerName]),
     });
+  }
+
+  getCraftableItems() {
+    return Object.keys(itemsConfig.recipes)
+      .filter(itemkey => {
+        return this.options.producer.crafting_categories.includes(itemsConfig.recipes[itemkey].category)
+      });
+  }
+
+  setProducerType(newType) {
+    this.options.producer = itemsConfig[this.options.producerName][newType];
+    if (this.options.productionItem && !this.options.producer.crafting_categories.includes(itemsConfig.recipes[this.options.productionItem].category)) {
+      this.setProductionItem(null);
+    }
+    else {
+      // Required to reset crafting speed;
+      this.setProductionItem(this.options.productionItem);
+    }
   }
 
   setProductionItem = item => {
@@ -31,8 +48,12 @@ class MachineNodeModel extends NodeModel {
       port.removeAllLinks();
       this.removePort(port);
     });
+
+    if (item === null) return;
+
+    this.options.productionItem = item;
     const recipe = itemsConfig.recipes[item];
-    const craftTime = recipe.energy_required / itemsConfig[this.options.producerName][this.options.itemName].crafting_speed;
+    const craftTime = recipe.energy_required / this.options.producer.crafting_speed;
     this.options.inputs = recipe.ingredients;
     recipe.ingredients
       .forEach(ingredient => {

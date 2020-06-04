@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
 import styled from '@emotion/styled';
 
@@ -24,14 +24,9 @@ const S = {
     }
   `,
   Content: styled.div`
+    display: flex;
     padding: 0.25rem 0.5rem;
     width: 100%;
-  `,
-  ItemSelectContainer: styled.div`
-    display: flex;
-    & > *:not(:last-child) {
-      margin-right: 0.5rem;
-    }
   `,
   ItemSelect: styled.select`
     flex-grow: 1;
@@ -53,14 +48,28 @@ const S = {
   `,
 };
 
+function useForceUpdate(){
+  const [, setValue] = useState(0);
+  return () => setValue(value => ++value);
+}
+
 const MachineNodeWidget = ({
   engine,
   node
 }) => {
+  const forceUpdate = useForceUpdate();
+
+  const handleTypeSelect = event => {
+    node.setProducerType(event.target.value);
+    forceUpdate();
+    engine.repaintCanvas();
+  };
+
   const handleItemSelect = event => {
     node.setProductionItem(event.target.value);
     engine.repaintCanvas();
-  }
+  };
+
   const inputs = [];
   const outputs = [];
   Object.keys(node.ports).forEach(portName => {
@@ -85,19 +94,25 @@ const MachineNodeWidget = ({
   return (
     <S.Root isSelected={node.isSelected()}>
       <S.Title>
-        <ItemIcon itemName={node.options.itemName} size={32} />
+        <ItemIcon itemName={node.options.producer.name} size={32} />
+        <S.ItemSelect type="select" value="" onChange={handleTypeSelect}>
+          <option value="" disabled>type</option>
+          {node.options.producerTypes.map(producerType => (
+            <option key={producerType} value={producerType}>
+              {producerType}
+            </option>
+          ))}
+        </S.ItemSelect>
       </S.Title>
       <S.Content>
-        <S.ItemSelectContainer>
-          <S.ItemSelect type="select" value="" onChange={handleItemSelect}>
-            <option value="" disabled>-- Select --</option>
-            {node.options.craftableItems.map(item => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </S.ItemSelect>
-        </S.ItemSelectContainer>
+        <S.ItemSelect type="select" value="" onChange={handleItemSelect}>
+          <option value="" disabled>product</option>
+          {node.getCraftableItems().map(item => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </S.ItemSelect>
       </S.Content>
       {hasPorts && <S.Ports>
         <S.InputPorts>
