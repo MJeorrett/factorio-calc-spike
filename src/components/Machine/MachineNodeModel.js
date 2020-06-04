@@ -37,7 +37,8 @@ class MachineNodeModel extends NodeModel {
         const ingredientLabel = ingredientConfig.localized_name.en;
         this.addPort(new MachinePortModel({
           itemName: ingredient.name,
-          label: `${round(ingredient.amount / craftTime)} x ${ingredientLabel}`,
+          craftingSpeed: round(ingredient.amount / craftTime),
+          label: ingredientLabel,
           isInput: true,
         }));
       });
@@ -45,7 +46,8 @@ class MachineNodeModel extends NodeModel {
       const resultConfig = itemsConfig.items[result.name];
       this.addPort(new MachinePortModel({
         itemName: result.name,
-        label: `${round(result.amount / craftTime)} x ${resultConfig.localized_name.en}`,
+        craftingSpeed: round(result.amount / craftTime),
+        label: resultConfig.localized_name.en,
         isInput: false,
       }));
     });
