@@ -47,7 +47,7 @@ class MachinePortModel extends PortModel {
   }
 
   createLinkModel() {
-    if (this.isInput) return null;
+    if (this.options.isInput) return null;
 
     const productionSpeedPerOutput = this.getProductionSpeedPerOutput();
 
