@@ -12,11 +12,11 @@ const S = {
     border: 1px solid white;
     border-color: ${p => p.isResource ? 'dodgerblue' : p.satisfaction < 1 ? 'red' : 'white'};
     border-radius: 3px;
-    cursor: pointer;
+    cursor: ${p => p.isInput ? 'default' : 'pointer'};
     opacity: ${p => p.isResource ? 0.6 : 'inherit'};
     padding: 3px 3px 0 3px;
     :hover {
-      opacity: 0.6;
+      opacity: ${p => p.isInput ? 'inherit' : 0.6};
     }
   `,
 };
@@ -31,7 +31,11 @@ const MachinePortWidget = ({
 
   return (
     <Tooltip title={`${itemConfig.localized_name.en} @ ${port.getProductionSpeed()} /s`}>
-      <S.Root satisfaction={satisfaction} isResource={isResource}>
+      <S.Root
+        satisfaction={satisfaction}
+        isResource={isResource}
+        isInput={port.options.isInput}
+      >
         <ItemIcon
           itemName={itemName}
           hideTooltip
