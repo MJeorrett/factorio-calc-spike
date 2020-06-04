@@ -7,9 +7,11 @@ import TrayItem from './TrayItem';
 
 const S = {
   Root: styled.div`
+    background: white;
     border-right: 1px solid dodgerblue;
     border-bottom: 1px solid dodgerblue;
     height: 100vh;
+    opacity: 0.9;
     overflow-y: scroll;
     padding: 0.5rem;
     position: absolute;

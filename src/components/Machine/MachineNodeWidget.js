@@ -11,21 +11,28 @@ const S = {
     background: white;
     border: ${p => p.isSelected ? '2.5px solid dodgerblue' : '1px solid dodgerblue'};
     opacity: 0.95;
+    transition: all 200ms ease-out;
   `,
   Title: styled.div`
     border-bottom: 1px solid dodgerblue;
     display: flex;
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem;
   `,
-  Label: styled.p`
+  Label: styled.h4`
     color: dodgerblue;
     flex-grow: 1;
     text-align: center;
+    vertical-align: middle;
   `,
   Content: styled.div`
-    display: flex;
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem;
     width: 100%;
+  `,
+  ItemSelectContainer: styled.div`
+    display: flex;
+    & > *:not(:last-child) {
+      margin-right: 0.5rem;
+    }
   `,
   ItemSelect: styled.select`
     flex-grow: 1;
@@ -81,6 +88,7 @@ const MachineNodeWidget = ({
       outputs.push(portWidget);
     }
   });
+  const hasPorts = inputs.length > 0 || outputs.length > 0;
   return (
     <S.Root isSelected={node.isSelected()}>
       <S.Title>
@@ -88,17 +96,19 @@ const MachineNodeWidget = ({
         <S.Label>{node.options.label}</S.Label>
       </S.Title>
       <S.Content>
-        <ItemIcon itemName={selectedItem} />
-        <S.ItemSelect type="select" value={selectedItem} onChange={handleItemSelect}>
-          <option value="" disabled>-- Please select an item --</option>
-          {node.options.craftableItems.map(item => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </S.ItemSelect>
+        <S.ItemSelectContainer>
+          <ItemIcon itemName={selectedItem} />
+          <S.ItemSelect type="select" value={selectedItem} onChange={handleItemSelect}>
+            <option value="" disabled>-- Please select an item --</option>
+            {node.options.craftableItems.map(item => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </S.ItemSelect>
+        </S.ItemSelectContainer>
       </S.Content>
-      <S.Ports>
+      {hasPorts && <S.Ports>
         <S.InputPorts>
           {inputs}
         </S.InputPorts>
@@ -106,7 +116,7 @@ const MachineNodeWidget = ({
         <S.OutputPorts>
           {outputs}
         </S.OutputPorts>
-      </S.Ports>
+      </S.Ports>}
     </S.Root>
   );
 };
