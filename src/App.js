@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import diagramEngine from './diagramEngine';
 
 import Canvas from './components/Canvas';
+import Tray from './components/Tray';
 
 const S = {
   Title: styled.h1`
@@ -20,6 +21,7 @@ function App() {
     <>
       <S.Title>Factorio Calc</S.Title>
       <Canvas engine={diagramEngine} />
+      <Tray />
     </>
   );
 }

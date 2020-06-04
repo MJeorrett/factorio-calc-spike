@@ -7,14 +7,12 @@ const S = {
   Root: styled.img`
     background: url("img/sprite-sheet.png") ${p => `${p.iconCol * -32}px ${p.iconRow * -32}px`};
     height: 32px;
-    margin-right: 1rem;
     min-width: 32px;
     max-width: 32px;
   `,
   Placeholder: styled.span`
     border: 1px solid grey;
     height: 32px;
-    margin-right: 1rem;
     padding: 3px;
     text-align: center;
     width: 32px;
