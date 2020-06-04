@@ -1,26 +1,35 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { Tooltip } from '@material-ui/core';
 
 import itemsConfig from '../data/items-config.json';
 
+const horizontalTileCount = 15;
+const verticalTileCount = 16;
+const tileSize = 32;
+
 const S = {
   Root: styled.img`
-    background: url("img/sprite-sheet.png") ${p => `${p.iconCol * -32}px ${p.iconRow * -32}px`};
-    height: 32px;
-    min-width: 32px;
-    max-width: 32px;
+    background: url("img/sprite-sheet.png") ${p => `${p.iconX}px ${p.iconY}px`};
+    background-size: ${p => `${p.imageWidth}px ${p.imageHeight}px`};
+    height: ${p => p.size}px;
+    margin: auto;
+    width: ${p => p.size}px;
   `,
   Placeholder: styled.span`
     border: 1px solid grey;
-    height: 32px;
+    height: ${p => p.size}px;
+    margin: auto;
     padding: 3px;
     text-align: center;
-    width: 32px;
+    width: ${p => p.size}px;
   `,
 };
 
 const ItemIcon = ({
   itemName,
+  hideTooltip,
+  size = 32,
 }) => {
   if (!itemName) {
     return (
@@ -31,12 +40,24 @@ const ItemIcon = ({
   }
 
   const itemConfig = itemsConfig.recipes[itemName];
+
+  const scale = size / tileSize;
+  const imageHeight = (verticalTileCount * tileSize) * scale;
+  const imageWidth = (horizontalTileCount * tileSize) * scale;
+  const iconX = itemConfig.icon_col * (-32 * scale);
+  const iconY = itemConfig.icon_row * (-32 * (size / 32));
+
   return (
-    <S.Root
-      src="img/pixel.gif"
-      iconCol={itemConfig.icon_col}
-      iconRow={itemConfig.icon_row}
-    />
+    <Tooltip title={hideTooltip ? '' : itemConfig.localized_name.en}>
+      <S.Root
+        src="img/pixel.gif"
+        size={size}
+        imageWidth={imageWidth}
+        imageHeight={imageHeight}
+        iconX={iconX}
+        iconY={iconY}
+      />
+    </Tooltip>
   );
 };
 

@@ -6,7 +6,6 @@ class MachinePortModel extends PortModel {
       name: isInput ? `input-${itemName}` : `output-${itemName}`,
       productionSpeed,
       itemName,
-      label,
       isInput,
       alignment: isInput ? PortModelAlignment.LEFT : PortModelAlignment.RIGHT,
     });

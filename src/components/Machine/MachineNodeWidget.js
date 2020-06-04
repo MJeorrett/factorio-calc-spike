@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PortWidget } from '@projectstorm/react-diagrams';
 import styled from '@emotion/styled';
 
@@ -9,7 +9,8 @@ import MachinePortWidget from './MachinePortWidget';
 const S = {
   Root: styled.div`
     background: white;
-    border: ${p => p.isSelected ? '2.5px solid dodgerblue' : '1px solid dodgerblue'};
+    border: ${p => p.isSelected ? '2px solid dodgerblue' : '1px solid dodgerblue'};
+    border-radius: 2px;
     opacity: 0.95;
     transition: all 200ms ease-out;
   `,
@@ -17,12 +18,10 @@ const S = {
     border-bottom: 1px solid dodgerblue;
     display: flex;
     padding: 0.25rem 0.5rem;
-  `,
-  Label: styled.h4`
-    color: dodgerblue;
-    flex-grow: 1;
     text-align: center;
-    vertical-align: middle;
+    & > *:not(:last-child) {
+      margin-right: 0.5rem;
+    }
   `,
   Content: styled.div`
     padding: 0.25rem 0.5rem;
@@ -36,6 +35,7 @@ const S = {
   `,
   ItemSelect: styled.select`
     flex-grow: 1;
+    width: 5rem;
   `,
   Ports: styled.div`
     border-top: 1px solid dodgerblue;
@@ -43,19 +43,13 @@ const S = {
     padding: 0.25rem;
   `,
   InputPorts: styled.div`
-    margin-right: 1rem;
-    &> *:not(:last-child) {
-      margin-bottom: 0.25rem;
-    }
+    margin-right: 0.5rem;
   `,
   PortPadding: styled.div`
     flex-grow: 1;
   `,
   OutputPorts: styled.div`
     align-self: right;
-    &> *:not(:last-child) {
-      margin-bottom: 0.25rem;
-    }
   `,
 };
 
@@ -63,10 +57,8 @@ const MachineNodeWidget = ({
   engine,
   node
 }) => {
-  const [selectedItem, setSelectedItem] = useState('');
   const handleItemSelect = event => {
     node.setProductionItem(event.target.value);
-    setSelectedItem(event.target.value);
     engine.repaintCanvas();
   }
   const inputs = [];
@@ -93,14 +85,12 @@ const MachineNodeWidget = ({
   return (
     <S.Root isSelected={node.isSelected()}>
       <S.Title>
-        <ItemIcon itemName={node.options.itemName} />
-        <S.Label>{node.options.label}</S.Label>
+        <ItemIcon itemName={node.options.itemName} size={32} />
       </S.Title>
       <S.Content>
         <S.ItemSelectContainer>
-          <ItemIcon itemName={selectedItem} />
-          <S.ItemSelect type="select" value={selectedItem} onChange={handleItemSelect}>
-            <option value="" disabled>-- Please select an item --</option>
+          <S.ItemSelect type="select" value="" onChange={handleItemSelect}>
+            <option value="" disabled>-- Select --</option>
             {node.options.craftableItems.map(item => (
               <option key={item} value={item}>
                 {item}
